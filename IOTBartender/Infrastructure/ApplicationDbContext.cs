@@ -23,6 +23,7 @@ namespace IOTBartender.Infrastructure
             modelBuilder.ApplyConfiguration(new EntityTypeConfigurationGlass());
             modelBuilder.ApplyConfiguration(new EntitypeTypeConfigurationRecipe());
             modelBuilder.ApplyConfiguration(new EntityTypeConfigurationComponent());
+            modelBuilder.ApplyConfiguration(new EntityTypeConfigurationOrder());
         }
 
         public DbSet<Glass> Glasses { get; set; }
@@ -30,5 +31,7 @@ namespace IOTBartender.Infrastructure
         public DbSet<Recipe> Recipes { get; set; }
 
         public DbSet<Component> Components { get; set; }
+        
+        public DbSet<Order> Orders { get; set; }
     }
 }

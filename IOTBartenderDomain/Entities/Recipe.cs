@@ -8,8 +8,12 @@ namespace IOTBartenderDomain.Entities
     {
         public int Id { get; set; }
 
+        /// <summary>
+        /// List of components in the recipe.
+        /// </summary>
         public List<Component> Components { get; set; }
 
-        public List<Glass> Glasses { get; set; }
+        // List of orders which the recipe is used in.
+        public List<Order> Orders { get; set; }
     }
 }

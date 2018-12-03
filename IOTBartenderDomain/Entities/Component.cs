@@ -8,7 +8,7 @@ namespace IOTBartenderDomain.Entities
     {
         public int Id { get; set; }
 
-        public Enum Name { get; set; }
+        public ComponentName Name { get; set; }
 
         public int Dozes { get; set; }
 

@@ -29,12 +29,15 @@ namespace IOTBartender.Infrastructure.Seed
             // Create classs.
             var glass = new Glass()
             {
-                Recipe = recipeOne,
-                Size = GlassSize.Small
             };
 
-            // Add class, recipes and components to the database.
-            applicationDbContext.Glasses.Add(glass);
+            var orderOne = new Order()
+            {
+                Glass = glass,
+                Recipe = recipeOne
+            };
+
+            applicationDbContext.Orders.Add(orderOne);
 
             applicationDbContext.SaveChanges();
         }

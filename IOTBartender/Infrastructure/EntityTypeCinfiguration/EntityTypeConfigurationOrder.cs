@@ -8,11 +8,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IOTBartender.Infrastructure.EntityTypeCinfiguration
 {
-    public class EntityTypeConfigurationGlass : IEntityTypeConfiguration<Glass>
+    public class EntityTypeConfigurationOrder : IEntityTypeConfiguration<Order>
     {
-        public void Configure(EntityTypeBuilder<Glass> builder)
+        public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.HasOne(x => x.Glass).WithMany(x => x.Orders);
+            builder.HasOne(x => x.Recipe).WithMany(x => x.Orders);
         }
     }
 }

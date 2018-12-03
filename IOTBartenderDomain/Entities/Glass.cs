@@ -7,10 +7,11 @@ namespace IOTBartenderDomain.Entities
     public class Glass
     {        
         public int Id { get; set; }
-        public Enum Size { get; set; }
-        public Recipe Recipe { get; set; }
-        public int RecipeId { get; set; }
-        public int UserId { get; set; }
+
+        /// <summary>
+        /// List of orders which are queue up for this class.
+        /// </summary>
+        public List<Order> Orders { get; set; }
     }
 
     public enum GlassSize
