@@ -1,65 +1,36 @@
-﻿
+﻿@model OptionViewModel
 @{
     ViewData["Title"] = "Index";
 }
+<script>
+    function optionClicked(recipe) {
+        console.log("hit javascript");
+        console.log(recipe);
+
+        //var selectedName = document.getElementById("name");
+        //selectedName.textContent = 
+    }
+</script>
 
 <div class="outMostContainer">    
     <div class="selectionBar">
-        <div class="option">
-            Option1
+        @*@for (int i = 0; i < @Model.Recipies.Count; i++)
+        {
+        <div onclick="optionClicked(@i)" class="option">
+            @Model.Recipies.ElementAt(i).Name
         </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-        <div class="option">
-            Option1
-        </div>
-
+        }*@
+        
+        @foreach (var recipe in @Model.Recipies)
+        {
+            <div onclick="optionClicked(@Html.Raw(Json.Serialize(recipe)))" class="option">
+               @recipe.Name
+            </div>
+        }
+    </div>
+    
+    <div class="selected">
+       <p id="name" style="font-size: 14px;"></p>
     </div>
 </div>
 

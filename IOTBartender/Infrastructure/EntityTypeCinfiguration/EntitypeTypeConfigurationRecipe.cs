@@ -13,7 +13,7 @@ namespace IOTBartender.Infrastructure.EntityTypeCinfiguration
         public void Configure(EntityTypeBuilder<Recipe> builder)
         {
             builder.HasKey(x => x.Id);
-
+          
             builder.HasMany(x => x.Components).WithOne(x => x.Recipe);
         }
     }

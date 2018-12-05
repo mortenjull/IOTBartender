@@ -17,8 +17,9 @@ namespace IOTBartenderDomain.Entities
 
     public enum ComponentName
     {
-        One,
-        Two,
-        Three
+        Rum,
+        Gin,
+        DatGooodShit
+
     }
 }
