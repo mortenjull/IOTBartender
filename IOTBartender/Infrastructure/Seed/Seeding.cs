@@ -14,7 +14,7 @@ namespace IOTBartender.Infrastructure.Seed
             var componentOne = new Component()
             {
                 Dozes = 1,
-                Name = ComponentName.One
+                Name = ComponentName.Rum
             };
 
             // Create recipe with one component.

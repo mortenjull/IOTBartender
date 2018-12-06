@@ -3,34 +3,46 @@
     ViewData["Title"] = "Index";
 }
 <script>
-    function optionClicked(recipe) {
-        console.log("hit javascript");
-        console.log(recipe);
+    function optionClicked(index) {
 
-        //var selectedName = document.getElementById("name");
-        //selectedName.textContent = 
+        var recipies = @Json.Serialize(Model.Recipies);        
+        var recipe = recipies[index];
+        var components = recipe['components'];
+        var selectedName = document.getElementById("recipeName");
+        var selectedComponents = document.getElementById("recipeIngrediences");
+        var orderButton = document.getElementById("orderButton");
+        var recipeId = document.getElementById("recipeId");
+        selectedName.textContent = recipe['name'];
+        recipeId.value = recipe['id'];
+
+        var ingridienceTekst = "Ingridiences: ";
+        for (var i = 0; i < components.length; i++) {
+            var component = components[i];
+            ingridienceTekst += component['name'] + ", ";
+        }
+
+        selectedComponents.textContent = ingridienceTekst;
+
+        orderButton.disabled = false;
     }
 </script>
 
 <div class="outMostContainer">    
     <div class="selectionBar">
-        @*@for (int i = 0; i < @Model.Recipies.Count; i++)
+        @for (int i = 0; i < @Model.Recipies.Count; i++)
         {
         <div onclick="optionClicked(@i)" class="option">
             @Model.Recipies.ElementAt(i).Name
         </div>
-        }*@
-        
-        @foreach (var recipe in @Model.Recipies)
-        {
-            <div onclick="optionClicked(@Html.Raw(Json.Serialize(recipe)))" class="option">
-               @recipe.Name
-            </div>
-        }
+        }        
     </div>
     
     <div class="selected">
-       <p id="name" style="font-size: 14px;"></p>
+        <br />
+        <p id="recipeName"></p>
+        <p id="recipeIngrediences"></p>
+        <input id="recipeId" hidden/>
+        <input onclick="location.href='@Url.Action("OrderDrink", "Bartender")?id=' + $('#recipeId').val()" id="orderButton" type="button" value="Order" disabled />       
     </div>
 </div>
 

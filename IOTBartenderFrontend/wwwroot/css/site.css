@@ -48,19 +48,28 @@
     cursor: pointer;
 }
 .selected {
-
+    position: relative;
     margin-top: 2%;
     margin-bottom: 2%;
     min-height: 90%;
     min-width: 50%;
-    
+    max-width: 50%;
     float: right;
-
     border-style: solid;
     border-color: black;
     border-radius: 20px;
-
     margin-right: 2%;
+}
+#orderButton {
+    position: absolute;
+    right: 42%;
+    bottom: 0;
+    background-color: lime;
+    font-size: 20px;
+    border-radius: 17px;
+    border-color: lime;
+    margin-bottom: 10px;
+    width: 100px;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -81,7 +90,23 @@
     background: black;
     border-radius: 10px;
     cursor: pointer;
-} 
+}
+
+#recipeName {
+    margin-left: 2%;
+    max-width: 90%;
+    font-size: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#recipeIngrediences {
+    margin-left: 2%;
+    font-size: 25px;
+    max-width: 90%;
+    max-height: 40%;
+}
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
