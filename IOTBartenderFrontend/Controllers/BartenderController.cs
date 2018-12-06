@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOTBartenderDomain.Entities;
+using IOTBartenderFrontend.Infrastructure.Gateways;
 using IOTBartenderFrontend.Models;
 using IOTBartenderFrontend.Models.Bartender.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +14,11 @@ namespace IOTBartenderFrontend.Controllers
     public class BartenderController : Controller
     {
         private OptionViewModel _optionViewModel;
-        public BartenderController()
+        private IBartenderAPIGateway _apiGAteway;
+        public BartenderController(IBartenderAPIGateway apigateway)
         {
+            this._apiGAteway = apigateway;
+
             this._optionViewModel = new OptionViewModel();
             this._optionViewModel.Recipies = new List<RecipeModel>();
 
@@ -94,6 +98,8 @@ namespace IOTBartenderFrontend.Controllers
 
         public IActionResult OrderDrink(string id)
         {
+            var result = this._apiGAteway.GetOrders().Result;
+
             return RedirectToAction("Index", "Bartender");
         }
     }

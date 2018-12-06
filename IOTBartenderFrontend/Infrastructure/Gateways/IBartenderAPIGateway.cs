@@ -13,5 +13,16 @@ namespace IOTBartenderFrontend.Infrastructure.Gateways
         /// </summary>
         /// <returns></returns>
         Task<List<Order>> GetOrders();
+        /// <summary>
+        /// Gets all Recipies from the api.
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Recipe>> GetRecipies();
+        /// <summary>
+        /// Sends an order to the api.
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        Task<Order> SendOrder(Order order);
     }
 }

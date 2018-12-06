@@ -32,6 +32,7 @@ namespace IOTBartenderFrontend
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddTransient<IBartenderAPIGateway, BartenderAPIGateway>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

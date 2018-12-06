@@ -38,7 +38,7 @@ namespace IOTBartenderFrontend.Infrastructure.Gateways
         public async Task<List<Order>> GetOrders()
         {
             var httpRequestMessage 
-                = new HttpRequestMessage(HttpMethod.Get, _configuration["BartenderApi"]);
+                = new HttpRequestMessage(HttpMethod.Get, new Uri(_configuration["BartenderApi"] + "Order/GetOrders"));
    
             var response = await _httpClient.SendAsync(httpRequestMessage);
 
@@ -48,6 +48,26 @@ namespace IOTBartenderFrontend.Infrastructure.Gateways
             var body = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<List<Order>>(body);
+        }
+
+        public async Task<List<Recipe>> GetRecipies()
+        {
+            var httpRequestMessage
+                = new HttpRequestMessage(HttpMethod.Get, new Uri(_configuration["BartenderApi"] + "Recipe/GetRecipies"));
+
+            var response = await _httpClient.SendAsync(httpRequestMessage);
+
+            if (!response.IsSuccessStatusCode)
+                throw new BartenderAPIGatewayException($"Api gateway responded with {response.StatusCode}.");
+
+            var body = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<List<Recipe>>(body);
+        }
+
+        public Task<Order> SendOrder(Order order)
+        {
+            throw new NotImplementedException();
         }
     }
 

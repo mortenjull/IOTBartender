@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOTBartender.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IOTBartender.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _applicationDbContext;
@@ -20,8 +21,10 @@ namespace IOTBartender.Controllers
 
             _applicationDbContext = applicationDbContext;
         }
-
-        public IActionResult Index()
+    
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetOrders()
         {
             // Get all orders including glass, recipes etc.
             var orders = _applicationDbContext.Orders
@@ -31,6 +34,14 @@ namespace IOTBartender.Controllers
                 .ToList();
 
             return new OkObjectResult(orders);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult CreateOrder()
+        {
+            //Code for saving to db and for sending order to pie.
+            return null;
         }
 
 
