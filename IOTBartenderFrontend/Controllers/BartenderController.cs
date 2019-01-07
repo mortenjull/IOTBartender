@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IOTBartenderDomain.Entities;
 using IOTBartenderFrontend.Infrastructure.Gateways;
 using IOTBartenderFrontend.Models;
 using IOTBartenderFrontend.Models.Bartender.Models;

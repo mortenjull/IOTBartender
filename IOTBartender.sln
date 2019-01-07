@@ -3,11 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTBartender", "IOTBartender\IOTBartender.csproj", "{7B728ABC-1FC2-4421-9829-6A6DCB6A8D82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOTBartender", "IOTBartender\IOTBartender.csproj", "{7B728ABC-1FC2-4421-9829-6A6DCB6A8D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTBartenderFrontend", "IOTBartenderFrontend\IOTBartenderFrontend.csproj", "{0B0C6083-B48C-407E-849C-3A97DB8E6FF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOTBartenderFrontend", "IOTBartenderFrontend\IOTBartenderFrontend.csproj", "{0B0C6083-B48C-407E-849C-3A97DB8E6FF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTBartenderDomain", "IOTBartenderDomain\IOTBartenderDomain.csproj", "{9EEFDF32-10C3-4ECA-A7A1-B127C92EC708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IOTBartenderDomain", "IOTBartenderDomain\IOTBartenderDomain.csproj", "{9EEFDF32-10C3-4ECA-A7A1-B127C92EC708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTBartender.Domain", "IOTBartender.Domain\IOTBartender.Domain.csproj", "{7CFD62B0-C763-477E-B8CD-312358BF3D33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTBartender.Infrastructure", "IOTBartender.Infrastructure\IOTBartender.Infrastructure.csproj", "{A56C9A5B-FAA2-49D4-B194-7823B72EB0F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTBartender.API", "IOTBartender.API\IOTBartender.API.csproj", "{83C403CF-EEF0-4876-ACBF-9E6E1BC8CA37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTBartender.Application", "IOTBartender.Application\IOTBartender.Application.csproj", "{FF5BB085-CB03-401C-9172-827C0838E6F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +35,22 @@ Global
 		{9EEFDF32-10C3-4ECA-A7A1-B127C92EC708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EEFDF32-10C3-4ECA-A7A1-B127C92EC708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EEFDF32-10C3-4ECA-A7A1-B127C92EC708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CFD62B0-C763-477E-B8CD-312358BF3D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CFD62B0-C763-477E-B8CD-312358BF3D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CFD62B0-C763-477E-B8CD-312358BF3D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CFD62B0-C763-477E-B8CD-312358BF3D33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56C9A5B-FAA2-49D4-B194-7823B72EB0F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56C9A5B-FAA2-49D4-B194-7823B72EB0F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56C9A5B-FAA2-49D4-B194-7823B72EB0F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56C9A5B-FAA2-49D4-B194-7823B72EB0F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83C403CF-EEF0-4876-ACBF-9E6E1BC8CA37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C403CF-EEF0-4876-ACBF-9E6E1BC8CA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C403CF-EEF0-4876-ACBF-9E6E1BC8CA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C403CF-EEF0-4876-ACBF-9E6E1BC8CA37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF5BB085-CB03-401C-9172-827C0838E6F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF5BB085-CB03-401C-9172-827C0838E6F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF5BB085-CB03-401C-9172-827C0838E6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF5BB085-CB03-401C-9172-827C0838E6F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
