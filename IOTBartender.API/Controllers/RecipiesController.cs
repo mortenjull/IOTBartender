@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IOTBartender.Application.Commands.Recipe;
+using IOTBartender.Domain.Entititeis;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IOTBartender.API.Controllers
 {
-    public class RecipeController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RecipiesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public RecipeController(IMediator mediator)
+        public RecipiesController(IMediator mediator)
         {
             if (mediator == null)
                 throw new ArgumentNullException(nameof(mediator));
@@ -24,7 +27,8 @@ namespace IOTBartender.API.Controllers
         /// Get's all the availalbe recipies in the application.
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> All()
+        [HttpGet]
+        public async Task<ActionResult> All()
         {
             // Get all recipies.
             var recipies = await _mediator.Send(new RecipeAllCommand());

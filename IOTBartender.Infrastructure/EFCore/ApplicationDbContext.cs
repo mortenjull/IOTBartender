@@ -1,4 +1,6 @@
-﻿using IOTBartender.Infrastructure.EFCore.EntityTypeConfigurations;
+﻿using Bogus;
+using IOTBartender.Domain.Entititeis;
+using IOTBartender.Infrastructure.EFCore.EntityTypeConfigurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

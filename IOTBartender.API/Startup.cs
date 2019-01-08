@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using IOTBartender.API.Background;
 using IOTBartender.Application.Commands;
+using IOTBartender.Domain.Entititeis;
 using IOTBartender.Domain.UnitOfWorks;
+using IOTBartender.Domain.UnitOfWorks.Repositories;
 using IOTBartender.Infrastructure.EFCore;
 using IOTBartender.Infrastructure.UnitOfWorks;
 using MediatR;
@@ -40,9 +43,9 @@ namespace IOTBartender.API
                 });
 
             // Add in memory efcore to the project.
-            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("SimpleWebShop"));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddTransient<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
+            services.AddScoped<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
 
             // Add incoming and outgoing data services as background jobs.
             services.AddHostedService<IncomingHostedService>();
@@ -50,6 +53,32 @@ namespace IOTBartender.API
 
             // Add MediatR.
             services.AddMediatR(typeof(Command));
+
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                // Get unit of work.
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+                var fluid1 = unitOfWork.Repository.Add(new Fluid() { Name = "Vodka" });
+                var fluid2 = unitOfWork.Repository.Add(new Fluid() { Name = "Rom" });
+                var fluid3 = unitOfWork.Repository.Add(new Fluid() { Name = "Gin" });
+                var fluid4 = unitOfWork.Repository.Add(new Fluid() { Name = "Cola" });
+
+                var recipeOne = unitOfWork.Repository.Add(new Recipe()
+                {
+                    Components = new List<Component>()
+                    {
+                        new Component() { FluidId = fluid1.Id, Size = 1},
+                        new Component() { FluidId = fluid2.Id, Size = 1},
+                    }
+                });
+
+                unitOfWork.Repository.Add(new Order() { RecipeId = recipeOne.Id, Status = Order.OrderStatus.Submitted });
+
+                var result = unitOfWork.SaveChanges().Result;
+
+                var orders = unitOfWork.Repository.All<Domain.Entititeis.Order>(new CancellationTokenSource().Token).Result;
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

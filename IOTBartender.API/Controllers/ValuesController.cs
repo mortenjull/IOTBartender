@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IOTBartender.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class ValuesController : ControllerBase
     {
         // GET api/values

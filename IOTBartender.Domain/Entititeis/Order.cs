@@ -8,6 +8,11 @@ namespace IOTBartender.Domain.Entititeis
         : Entity
     {
         /// <summary>
+        /// If of recipe.
+        /// </summary>
+        public int RecipeId { get; set; }
+
+        /// <summary>
         /// <see cref="Recipe"/> for this order.
         /// </summary>
         public Recipe Recipe { get; set; }

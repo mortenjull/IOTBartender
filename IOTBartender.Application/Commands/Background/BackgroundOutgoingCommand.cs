@@ -53,8 +53,9 @@ namespace IOTBartender.Application.Commands.Background
 
                 // Get orders using specification.
                 var orders = await _unitOfWork.Repository.Where(specification, cancellationToken);
-                
+
                 // Wait some time before executing again.
+
                 await Task.Delay(1000);
             }
 
