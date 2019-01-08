@@ -15,7 +15,7 @@ namespace IOTBartender.Infrastructure.EFCore.EntityTypeConfigurations
             builder.HasKey(x => x.Id);
 
             builder.HasMany(x => x.Components).WithOne(x => x.Recipe);
-            builder.HasOne(x => x.Order).WithMany(x => x.Recipies);
+            builder.HasMany(x => x.Orders).WithOne(x => x.Recipe);
         }
     }
 }

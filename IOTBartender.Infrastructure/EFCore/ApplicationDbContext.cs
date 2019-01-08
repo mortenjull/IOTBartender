@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IOTBartender.Infrastructure.EFCore.EntityTypeConfigurations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,11 @@ namespace IOTBartender.Infrastructure.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new FluidEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new RecipeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ComponentEntityTypeConfiguration());
+
             base.OnModelCreating(modelBuilder);
         }
     }

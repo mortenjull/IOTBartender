@@ -35,7 +35,7 @@ namespace IOTBartender.Application.Commands.Recipe
             var specification = new Specification<Domain.Entititeis.Recipe>();
 
             specification.Include(x => x.Components);
-            specification.Include(x => x.Order);
+            specification.Include(x => x.Orders);
 
             // Get all the recipies in the application.
             var recipies = await _unitOfWork

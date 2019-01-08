@@ -8,9 +8,20 @@ namespace IOTBartender.Domain.Entititeis
         : Entity
     {
         /// <summary>
-        /// List of <see cref="Recipe"/> using this
-        /// <see cref="Order"/>.
+        /// <see cref="Recipe"/> for this order.
         /// </summary>
-        public List<Recipe> Recipies { get; set; }
+        public Recipe Recipe { get; set; }
+
+        /// <summary>
+        /// Status of the order.
+        /// </summary>
+        public OrderStatus Status { get; set; } = OrderStatus.Submitted;
+
+        public enum OrderStatus
+        {
+            Submitted,
+            Pending,
+            Completed
+        }
     }
 }

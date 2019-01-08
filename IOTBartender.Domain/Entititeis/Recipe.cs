@@ -13,13 +13,9 @@ namespace IOTBartender.Domain.Entititeis
         public List<Component> Components { get; set; }
 
         /// <summary>
-        /// Id of the <see cref="Recipe"/> of the <see cref="Component"/>.
+        /// List of <see cref="Order"/> which is using this
+        /// <see cref="Recipe"/>.
         /// </summary>
-        public int OrderId { get; set; }
-
-        /// <summary>
-        /// <see cref="Recipe"/> of the <see cref="Component"/>.
-        /// </summary>
-        public Order Order { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

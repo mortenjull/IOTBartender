@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IOTBartender.API.Background;
 using IOTBartender.Application.Commands;
 using IOTBartender.Domain.UnitOfWorks;
 using IOTBartender.Infrastructure.EFCore;
@@ -42,6 +43,10 @@ namespace IOTBartender.API
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("SimpleWebShop"));
 
             services.AddTransient<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
+
+            // Add incoming and outgoing data services as background jobs.
+            services.AddHostedService<IncomingHostedService>();
+            services.AddHostedService<OutgoingHostedService>();
 
             // Add MediatR.
             services.AddMediatR(typeof(Command));
