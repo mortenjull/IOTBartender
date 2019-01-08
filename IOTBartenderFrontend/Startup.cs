@@ -52,6 +52,9 @@ namespace IOTBartenderFrontend
                 app.UseHsts();
             }
 
+            // Enable Cross origin request for everybody ONLY FOR DEVELOPMENT.
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

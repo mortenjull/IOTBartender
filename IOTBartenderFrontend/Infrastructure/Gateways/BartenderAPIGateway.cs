@@ -53,7 +53,7 @@ namespace IOTBartenderFrontend.Infrastructure.Gateways
         public async Task<List<Recipe>> GetRecipies()
         {
             var httpRequestMessage
-                = new HttpRequestMessage(HttpMethod.Get, new Uri(_configuration["BartenderApi"] + "Recipe/GetRecipies"));
+                = new HttpRequestMessage(HttpMethod.Get, new Uri(_configuration["BartenderApi"] + "Recipies/"));
 
             var response = await _httpClient.SendAsync(httpRequestMessage);
 

@@ -3,9 +3,10 @@
     ViewData["Title"] = "Index";
 }
 <script>
+
     function optionClicked(index) {
 
-        var recipies = @Json.Serialize(Model.Recipies);        
+        var recipies = @Json.Serialize(Model.Recipies);
         var recipe = recipies[index];
         var components = recipe['components'];
         var selectedName = document.getElementById("recipeName");
@@ -27,24 +28,93 @@
     }
 </script>
 
-<div class="outMostContainer">    
-    <div class="selectionBar">
-        @for (int i = 0; i < @Model.Recipies.Count; i++)
-        {
-        <div onclick="optionClicked(@i)" class="option">
-            @Model.Recipies.ElementAt(i).Name
-        </div>
-        }        
+<div class="outMostContainer">
+    <div id="selectionBar" class="selectionBar">
+        @*@for (int i = 0; i < @Model.Recipies.Count; i++)
+            {
+            <div onclick="optionClicked(@i)" class="option">
+                @Model.Recipies.ElementAt(i).Name
+            </div>
+            }*@
     </div>
-    
+
     <div class="selected">
         <br />
         <p id="recipeName"></p>
         <p id="recipeIngrediences"></p>
-        <input id="recipeId" hidden/>
-        <input onclick="location.href='@Url.Action("OrderDrink", "Bartender")?id=' + $('#recipeId').val()" id="orderButton" type="button" value="Order" disabled />       
+
+        <form id="orderForm">
+            <input type="hidden" id="recipeId" name="recipeId" />
+            <input type="submit" value="Order"/>
+        </form>
+
+        <input onclick="location.href='@Url.Action("OrderDrink", "Bartender")?id=' + $('#recipeId').val()" id="orderButton" type="button" value="Order" disabled />
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var API_URL = 'https://localhost:44380/';
+
+        // List containing the lastest cached recipies list.
+        var ajax_calls = [];
+
+        $(document).ready(function () {
+
+            // Fetch recipies list.
+            ajax_calls.push($.getJSON(API_URL + 'api/recipies', function (data) {
+                // Array of recipies.
+                var items = [];
+                // Go through each recipe and created element for it.
+                $.each(data, function (key, val) {
+                    console.log(data);
+                    items.push('<div class="option" data-id="' + val['id'] + '">' + val['name'] + '</div>');
+                });
+                // Add all recipie to selectio bar.
+                $("#selectionBar").html(items.join(""));
+            }));
+
+            $('#selectionBar').on('click', '.option', function (e) {
+                let id = parseInt($(this).data('id'));
+
+                // Abort any ajax call.
+                $.each(ajax_calls, function (key, val) { val.abort(); });
+
+                ajax_calls.push($.getJSON(API_URL + 'api/recipies/' + id, function (data) { 
+                    console.log(data);
+                    $('#recipeName').text(data['name']);
+
+                    // List of ingrediens names.
+                    var ingrediens = [];
+
+                    // Go through each component to get ingredient names.
+                    $.each(data['components'], function (key, val) { 
+                        ingrediens.push(val['fluid']['name']);
+                    });
+
+                    // Set ingredients list.
+                    $('#recipeIngrediences').text('Ingredients: ' + ingrediens.join(', '));
+
+                    // Set id of the selected recipe.
+                    $("#recipeId").val(id);
+                }));
+            });
+
+            $('#orderForm').submit(function (e) {
+                // Prevent browser from submitting the form.
+                e.preventDefault();
+                // Get the submitted recipe.
+                var recipeId = $("[name=recipeId]", this).val();
+                // Send order to api.
+                ajax_calls.push($.post(API_URL + 'api/orders', { recipeId: parseInt(recipeId) }).done(function (data) {
+                    console.log('created');
+                }));
+            });
+        });
+
+
+    </script>
+}
 
 
 

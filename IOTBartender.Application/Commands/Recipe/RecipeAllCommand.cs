@@ -31,27 +31,17 @@ namespace IOTBartender.Application.Commands.Recipe
 
         public async Task<IReadOnlyCollection<Domain.Entititeis.Recipe>> Handle(RecipeAllCommand request, CancellationToken cancellationToken)
         {
-            // Specification for getting all the orders which is submitted but not
-            // pending.
-            var specification = new ExpSpecification<Domain.Entititeis.Order>(
-                x => x.Status == Domain.Entititeis.Order.OrderStatus.Submitted);
+            // Specification for recipe.
+            var specification = new Specification<Domain.Entititeis.Recipe>();
 
-            // Get orders using specification.
-            var orders = await _unitOfWork.Repository.All<Domain.Entititeis.Order>(cancellationToken);
+            specification.Include("Components.Fluid");
 
+            // Get all the recipies in the application.
+            var recipies = await _unitOfWork
+                .Repository
+                .All(specification, cancellationToken);
 
-            //// Specification for recipe.
-            //var specification = new Specification<Domain.Entititeis.Recipe>();
-
-            //specification.Include(x => x.Components);
-            //specification.Include(x => x.Orders);
-
-            //// Get all the recipies in the application.
-            //var recipies = await _unitOfWork
-            //    .Repository
-            //    .All(specification, cancellationToken);
-
-            return null;
+            return recipies;
         }
     }
 }

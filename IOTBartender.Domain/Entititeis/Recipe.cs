@@ -8,6 +8,11 @@ namespace IOTBartender.Domain.Entititeis
         : Entity
     {
         /// <summary>
+        /// Name of the <see cref="Recipe"/>.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// List of <see cref="Component"/> in recipe.
         /// </summary>
         public List<Component> Components { get; set; }

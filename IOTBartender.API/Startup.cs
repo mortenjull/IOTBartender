@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using IOTBartender.API.Background;
 using IOTBartender.Application.Commands;
 using IOTBartender.Domain.Entititeis;
@@ -48,37 +49,39 @@ namespace IOTBartender.API
             services.AddScoped<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
 
             // Add incoming and outgoing data services as background jobs.
-            services.AddHostedService<IncomingHostedService>();
-            services.AddHostedService<OutgoingHostedService>();
+            //services.AddHostedService<IncomingHostedService>();
+            //services.AddHostedService<OutgoingHostedService>();
 
             // Add MediatR.
             services.AddMediatR(typeof(Command));
 
-            using (var scope = services.BuildServiceProvider().CreateScope())
-            {
-                // Get unit of work.
-                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+            // Add AutoMapper.
+            services.AddAutoMapper();
 
-                var fluid1 = unitOfWork.Repository.Add(new Fluid() { Name = "Vodka" });
-                var fluid2 = unitOfWork.Repository.Add(new Fluid() { Name = "Rom" });
-                var fluid3 = unitOfWork.Repository.Add(new Fluid() { Name = "Gin" });
-                var fluid4 = unitOfWork.Repository.Add(new Fluid() { Name = "Cola" });
+            //using (var scope = services.BuildServiceProvider().CreateScope())
+            //{
+            //    // Get unit of work.
+            //    var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-                var recipeOne = unitOfWork.Repository.Add(new Recipe()
-                {
-                    Components = new List<Component>()
-                    {
-                        new Component() { FluidId = fluid1.Id, Size = 1},
-                        new Component() { FluidId = fluid2.Id, Size = 1},
-                    }
-                });
+            //    var fluid1 = unitOfWork.Repository.Add(new Fluid() { Name = "Vodka" });
+            //    var fluid2 = unitOfWork.Repository.Add(new Fluid() { Name = "Rom" });
+            //    var fluid3 = unitOfWork.Repository.Add(new Fluid() { Name = "Gin" });
+            //    var fluid4 = unitOfWork.Repository.Add(new Fluid() { Name = "Cola" });
 
-                unitOfWork.Repository.Add(new Order() { RecipeId = recipeOne.Id, Status = Order.OrderStatus.Submitted });
+            //    var recipeOne = unitOfWork.Repository.Add(new Recipe()
+            //    {
+            //        Name = "Recipe One",
+            //        Components = new List<Component>()
+            //        {
+            //            new Component() { FluidId = fluid1.Id, Size = 1},
+            //            new Component() { FluidId = fluid2.Id, Size = 1},
+            //        }
+            //    });
 
-                var result = unitOfWork.SaveChanges().Result;
+            //    unitOfWork.Repository.Add(new Order() { RecipeId = recipeOne.Id, Status = Order.OrderStatus.Submitted });
 
-                var orders = unitOfWork.Repository.All<Domain.Entititeis.Order>(new CancellationTokenSource().Token).Result;
-            }
+            //    var result = unitOfWork.SaveChanges().Result;
+            //}
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +95,9 @@ namespace IOTBartender.API
             {
                 app.UseHsts();
             }
+
+            // Enable Cross origin request for everybody ONLY FOR DEVELOPMENT.
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
             app.UseMvc();
