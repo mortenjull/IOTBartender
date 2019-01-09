@@ -1,4 +1,15 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿(function () {
+    'use strict'
 
-// Write your JavaScript code.
+    // Replace with feather icons.
+    feather.replace();
+
+    var $loading = $('#loadingOverlay').hide();
+
+    $(document).ajaxStart(function () {
+        $loading.show();
+        console.log('rr');
+    }).ajaxStop(function () {
+            $loading.hide();
+    });
+})();

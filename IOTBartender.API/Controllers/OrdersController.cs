@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using IOTBartender.API.Models.Entities;
 using IOTBartender.Application.Commands.Order;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +19,33 @@ namespace IOTBartender.API.Controllers
         /// </summary>
         private readonly IMediator _mediator;
 
-        public OrdersController(IMediator mediator)
+        /// <summary>
+        /// <see cref="IMapper"/> to use.
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        public OrdersController(IMediator mediator, IMapper mapper)
         {
             if (mediator == null)
                 throw new ArgumentNullException(nameof(mediator));
+            if (mapper == null)
+                throw new ArgumentNullException(nameof(mapper));
 
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            return new OkResult();
+            var order = await _mediator.Send(new OrderGetCommand(id));
+
+            if (order == null)
+                return new NotFoundResult();
+
+            var result = _mapper.Map<OrderModel>(order);
+
+            return new OkObjectResult(result);
         }
 
         [HttpPost]
@@ -39,6 +56,18 @@ namespace IOTBartender.API.Controllers
 
             // Response with order id.
             return new CreatedAtActionResult("Get", "Orders", new { Id = result }, new { });        
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> All()
+        {
+            // Get all oders.
+            var orders = (await _mediator.Send(new OrderAllCommand())).ToList();
+
+            // Map entities to models.
+            var result = _mapper.Map<List<OrderModel>>(orders);
+
+            return new OkObjectResult(result);
         }
     }
 }

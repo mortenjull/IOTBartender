@@ -22,6 +22,11 @@ namespace IOTBartender.Domain.Entititeis
         /// </summary>
         public OrderStatus Status { get; set; } = OrderStatus.Submitted;
 
+        /// <summary>
+        /// Time of the order.
+        /// </summary>
+        public DateTime Time { get; set; }
+
         public enum OrderStatus
         {
             Submitted,

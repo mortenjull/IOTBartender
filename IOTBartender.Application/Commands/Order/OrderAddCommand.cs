@@ -39,7 +39,8 @@ namespace IOTBartender.Application.Commands.Order
         {
             var order = new Domain.Entititeis.Order()
             {
-                RecipeId = request.RecipeId
+                RecipeId = request.RecipeId,
+                Time = DateTime.UtcNow
             };
 
             // Add order to repository.

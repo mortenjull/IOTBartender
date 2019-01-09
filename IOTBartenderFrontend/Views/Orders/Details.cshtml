@@ -1,0 +1,58 @@
+﻿@model int
+
+@{
+    ViewData["Title"] = "OrderDetailsView";
+}
+
+<div id="orderInformation"></div>
+
+<div id="template" style="display:none;">
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Order information</h6>
+        <div class="media text-muted pt-3">
+            <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">Id</strong>
+                @@Id
+            </p>
+        </div>
+        <div class="media text-muted pt-3">
+            <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">Status</strong>
+                @@Status
+            </p>
+        </div>
+        <div class="media text-muted pt-3">
+            <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">Time</strong>
+                @@Time
+            </p>
+        </div>
+        <small class="d-block text-right mt-3">
+            <a href="/orders">Back</a>
+        </small>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Template of order.
+            var template = $('#template').html();
+
+            var API_URL = 'https://localhost:44380/';
+
+            // List containing the lastest cached recipies list.
+            var ajax_calls = [];
+
+            // Fetch recipies list.
+            ajax_calls.push($.getJSON(API_URL + 'api/orders/' + @Model, function (data) {
+                var item = template.replace('@@Id', data['id']);
+                    item = item.replace('@@Status', data['status']);
+                    item = item.replace('@@Time', data['time']);
+                
+                // Add all recipie to selectio bar.
+                $("#orderInformation").html(item);
+            }));
+        });
+    </script>
+}

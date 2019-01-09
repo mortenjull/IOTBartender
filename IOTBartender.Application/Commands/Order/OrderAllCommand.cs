@@ -1,4 +1,5 @@
 ﻿using IOTBartender.Domain.Entititeis;
+using IOTBartender.Domain.UnitOfWorks;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,24 @@ namespace IOTBartender.Application.Commands.Order
     public class OrderAllCommandHandler
         : IRequestHandler<OrderAllCommand, IReadOnlyCollection<IOTBartender.Domain.Entititeis.Order>>
     {
-        public Task<IReadOnlyCollection<Domain.Entititeis.Order>> Handle(OrderAllCommand request, CancellationToken cancellationToken)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public OrderAllCommandHandler(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            if (unitOfWork == null)
+                throw new ArgumentNullException(nameof(unitOfWork));
+
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<IReadOnlyCollection<Domain.Entititeis.Order>> Handle(OrderAllCommand request, CancellationToken cancellationToken)
+        {
+            // Get all orders from repository.
+            var orders = await _unitOfWork
+                .Repository
+                .All<Domain.Entititeis.Order>(cancellationToken);
+
+            return orders;
         }
     }
 }
