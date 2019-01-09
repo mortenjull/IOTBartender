@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace IOTBartender.Application.Commands.Background
 {
@@ -46,7 +47,7 @@ namespace IOTBartender.Application.Commands.Background
                 // Specification for getting all the orders which is submitted but not
                 // pending.
                 var specification = new ExpSpecification<Domain.Entititeis.Order>(
-                    x => x.Status == Domain.Entititeis.Order.OrderStatus.Submitted);
+                    x => x.Events.Last().Type == Domain.Entititeis.OrderEvent.OrderEventType.Submitted);
 
                 // Include recipe, components and fluids.
                 specification.Include("Recipe.Components.Fluid");

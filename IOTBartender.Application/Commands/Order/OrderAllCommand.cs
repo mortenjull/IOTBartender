@@ -1,5 +1,6 @@
 ﻿using IOTBartender.Domain.Entititeis;
 using IOTBartender.Domain.UnitOfWorks;
+using IOTBartender.Domain.UnitOfWorks.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -30,10 +31,14 @@ namespace IOTBartender.Application.Commands.Order
 
         public async Task<IReadOnlyCollection<Domain.Entititeis.Order>> Handle(OrderAllCommand request, CancellationToken cancellationToken)
         {
+            var specification = new Specification<Domain.Entititeis.Order>();
+
+            specification.Include("Events");
+
             // Get all orders from repository.
             var orders = await _unitOfWork
                 .Repository
-                .All<Domain.Entititeis.Order>(cancellationToken);
+                .All(specification, cancellationToken);
 
             return orders;
         }

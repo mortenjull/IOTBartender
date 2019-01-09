@@ -17,7 +17,9 @@ namespace IOTBartender.API
             CreateMap<Component, ComponentModel>();
             CreateMap<Recipe, RecipeModel>();
             CreateMap<Order, OrderModel>()
-                .ForMember(member => member.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+                .ForMember(member => member.Status, opt => opt.MapFrom(src => src.Events.Last().Type.ToString()));
+            CreateMap<OrderEvent, OrderEventModel>()
+                .ForMember(member => member.Status, opt => opt.MapFrom(src => src.Type.ToString()));
         }
     }
 }

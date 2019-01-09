@@ -1,0 +1,22 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            // Url of the API.
+            var API_URL = 'https://localhost:44380/';
+
+            $.getJSON(API_URL + 'api/orders/by/status' + @Model, function (data) {
+                var item = template.replace('@@Id', data['id']);
+                    item = item.replace('@@Status', data['status']);
+                    item = item.replace('@@Time', data['time']);
+                
+                // Add all recipie to selectio bar.
+                $("#orderInformation").html(item);
+            });
+        });
+    </script>
+}

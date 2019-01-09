@@ -78,7 +78,7 @@ namespace IOTBartender.API
             //        }
             //    });
 
-            //    unitOfWork.Repository.Add(new Order() { RecipeId = recipeOne.Id, Status = Order.OrderStatus.Submitted });
+            //    unitOfWork.Repository.Add(new Order() { RecipeId = recipeOne.Id, Events = new List<OrderEvent>() { new OrderEvent() { Time = DateTime.UtcNow, Type = OrderEvent.OrderEventType.Submitted } } });
 
             //    var result = unitOfWork.SaveChanges().Result;
             //}

@@ -42,6 +42,8 @@ namespace IOTBartender.Application.Commands.Order
             var specification = new ExpSpecification<Domain.Entititeis.Order>(
                 x => x.Id == request.Id);
 
+            specification.Include("Events");
+
             var order = await _unitOfWork.Repository.FirstOrDefault(specification, cancellationToken);
 
             return order;

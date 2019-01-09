@@ -7,14 +7,12 @@ using System.Text;
 
 namespace IOTBartender.Infrastructure.EFCore.EntityTypeConfigurations
 {
-    public class OrderEntityTypeConfiguration
-        : IEntityTypeConfiguration<Order>
+    public class OrderEventEntityTypeConfiguration
+        : IEntityTypeConfiguration<OrderEvent>
     {
-        public void Configure(EntityTypeBuilder<Order> builder)
+        public void Configure(EntityTypeBuilder<OrderEvent> builder)
         {
             builder.HasKey(x => x.Id);
-
-            builder.HasMany(x => x.Events).WithOne(x => x.Order);
         }
     }
 }

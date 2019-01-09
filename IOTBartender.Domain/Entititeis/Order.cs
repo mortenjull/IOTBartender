@@ -18,20 +18,13 @@ namespace IOTBartender.Domain.Entititeis
         public Recipe Recipe { get; set; }
 
         /// <summary>
-        /// Status of the order.
-        /// </summary>
-        public OrderStatus Status { get; set; } = OrderStatus.Submitted;
-
-        /// <summary>
         /// Time of the order.
         /// </summary>
         public DateTime Time { get; set; }
 
-        public enum OrderStatus
-        {
-            Submitted,
-            Pending,
-            Completed
-        }
+        /// <summary>
+        /// List of <see cref="OrderEvent"/>.
+        /// </summary>
+        public List<OrderEvent> Events { get; set; }
     }
 }
