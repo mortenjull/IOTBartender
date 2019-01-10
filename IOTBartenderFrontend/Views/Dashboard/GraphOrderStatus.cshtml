@@ -3,20 +3,143 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () { 
-            // Url of the API.
-            var API_URL = 'https://localhost:44380/';
+<div class="graph">
+    <canvas id="orderStatusGraph" style="width:100px;height:100px;"></canvas>
+</div>
 
-            $.getJSON(API_URL + 'api/orders/by/status' + @Model, function (data) {
-                var item = template.replace('@@Id', data['id']);
-                    item = item.replace('@@Status', data['status']);
-                    item = item.replace('@@Time', data['time']);
-                
-                // Add all recipie to selectio bar.
-                $("#orderInformation").html(item);
+
+
+<script type="text/javascript">
+    $(document).ready(function () { 
+        console.log('ss');
+        // Url of the API to use.
+        var API_URL = 'https://localhost:44380/';
+
+        // Get the canvas element.
+        let canvas = document.getElementById('orderStatusGraph');
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Submitted',
+                        backgroundColor: 'blue',
+                        borderColor: 'blue',
+                        data: [],
+                        fill: false,
+                    },
+                    {
+                        label: 'Pending',
+                        backgroundColor: 'orange',
+                        borderColor: 'orange',
+                        data: [],
+                        fill: false,
+                    }, {
+                        label: 'Executing',
+                        backgroundColor: 'yellow',
+                        borderColor: 'yellow',
+                        data: [],
+                        fill: false,
+                    }, {
+                        label: 'Completed',
+                        backgroundColor: 'green',
+                        borderColor: 'green',
+                        data: [],
+                        fill: false,
+                    }, {
+                        label: 'Failed',
+                        backgroundColor: 'red',
+                        borderColor: 'red',
+                        data: [],
+                        fill: false,
+                    }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Status of orders.'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        };
+
+        let graph = new Chart(canvas.getContext('2d'), config);
+
+        function update() {
+            config.data.labels = fetchLabels();
+
+            // Fetch event data with status of submitted.
+            fetch(0, config.data.datasets[0]);
+            // Fetch event data with status of pending.
+            fetch(1, config.data.datasets[1]);
+            // Fetch event data with status of executing.
+            fetch(2, config.data.datasets[2]);
+            // Fetch event data with status of Completed.
+            fetch(3, config.data.datasets[3]);
+            // Fetch event data with status of Failed.
+            fetch(4, config.data.datasets[4]);
+
+            setTimeout(update, 2000);
+        }
+
+        update();
+
+        function fetchLabels() {
+            // Labels for the graph.
+            var labels = [];
+
+            // Generate label for the last 60 minutes.
+            for (let now = new Date(), i = 60; i > 0; i--) labels.push(new Date(now.getTime() - i * 60000).toTimeString().split(' ')[0]);
+
+            return labels;
+        }
+
+        function fetch(status, dataset) {
+            // Fetch status event.
+            return $.getJSON(API_URL + 'api/orders/events/status/' + status + '/lastest', function (data) {
+                // Clear data set.
+                dataset.data = [];
+                // Pre fill dataset with 0, because not data is avaiable.
+                for (let i = 0; i < 60; i++) dataset.data.push(0);
+
+                let now = new Date(new Date().getTime());
+                let past = new Date(new Date().getTime());
+                past.setHours(now.getHours() - 1)
+
+                // Go through recevied dataset.
+                $.each(data, function (key, val) {
+                    let index = (60 - parseInt((past.getTime() - new Date(val['time']).getTime()) / 60000)) + 1;
+                    dataset.data[index] = val['count'];
+                });
+                // Update.
+                graph.update();
             });
-        });
-    </script>
-}
+        }
+    });
+</script>
