@@ -21,6 +21,8 @@ namespace IOTBartender.Infrastructure.EFCore
             modelBuilder.ApplyConfiguration(new FluidEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new RecipeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ComponentEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderEventEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DiagnosticEntityTypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

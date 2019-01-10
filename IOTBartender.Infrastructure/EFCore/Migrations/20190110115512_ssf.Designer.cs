@@ -4,14 +4,16 @@ using IOTBartender.Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IOTBartender.Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190110115512_ssf")]
+    partial class ssf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,23 +40,6 @@ namespace IOTBartender.Infrastructure.EFCore.Migrations
                     b.HasIndex("RecipeId");
 
                     b.ToTable("Component");
-                });
-
-            modelBuilder.Entity("IOTBartender.Domain.Entititeis.Diagnostic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("Cpu");
-
-                    b.Property<double>("Memory");
-
-                    b.Property<DateTime>("Time");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Diagnostic");
                 });
 
             modelBuilder.Entity("IOTBartender.Domain.Entititeis.Fluid", b =>

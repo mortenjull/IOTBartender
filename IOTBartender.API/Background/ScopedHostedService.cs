@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using IOTBartender.Application.Commands.Background;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace IOTBartender.API.Background
 {
-    public abstract class ScopedHostedService
+    public class ScopedHostedService
         : IHostedService
     {
         /// <summary>
@@ -25,20 +27,32 @@ namespace IOTBartender.API.Background
             _serviceProvider = serviceProvider;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using (var incomingScope = _serviceProvider.CreateScope())
+            using (var outgoingScope = _serviceProvider.CreateScope())
             {
-                // Run the logic for the service with the scope.
-                await Run(scope, cancellationToken);
+                // Execute incoming background command.
+                Task incomingTask = incomingScope
+                    .ServiceProvider
+                    .GetRequiredService<IMediator>()
+                    .Send(new BackgroundIncomingCommand());
+
+                // Execute outgoing background command.
+                Task outgoingTask = outgoingScope
+                    .ServiceProvider
+                    .GetRequiredService<IMediator>()
+                    .Send(new BackgroundOutgoingCommand());
+
+                Task.WaitAll(incomingTask, outgoingTask);
             }
+
+            return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
-
-        public abstract Task Run(IServiceScope scope, CancellationToken cancellationToken);
     }
 }

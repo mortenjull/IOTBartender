@@ -52,9 +52,9 @@ namespace IOTBartender.API.Controllers
         {
             // Get the current time.
             var now = DateTime.UtcNow;
-            
-            var start = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, now.Kind);
-            var end = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, now.Kind).AddHours(1);
+
+            var start = now.AddHours(-1);
+            var end = now;
 
             // List of events with the given status.
             var events = (await _mediator.Send(new OrderEventByStatusBetweenCommand(status, start, end))).ToList();

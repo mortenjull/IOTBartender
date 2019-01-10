@@ -49,8 +49,7 @@ namespace IOTBartender.API
             services.AddScoped<IUnitOfWork, UnitOfWork<ApplicationDbContext>>();
 
             // Add incoming and outgoing data services as background jobs.
-            //services.AddHostedService<IncomingHostedService>();
-            //services.AddHostedService<OutgoingHostedService>();
+            services.AddHostedService<ScopedHostedService>();
 
             // Add MediatR.
             services.AddMediatR(typeof(Command));
