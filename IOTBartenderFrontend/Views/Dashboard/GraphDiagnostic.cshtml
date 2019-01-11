@@ -1,0 +1,141 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="graph">
+    <canvas id="diagnosticsCPUGraph" style="max-width:700px;max-height:500px;"></canvas>
+</div>
+<div class="graph">
+    <canvas id="diagnosticsMemoryGraph" style="max-width:700px;max-height:500px;"></canvas>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Get the canvas element.
+        let canvas = document.getElementById('diagnosticsCPUGraph');
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'CPU',
+                        backgroundColor: 'blue',
+                        borderColor: 'blue',
+                        data: [],
+                        fill: false,
+                    }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'CPU'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Last Hour'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'CPU in percent'
+                        }
+                    }]
+                }
+            }
+        };
+
+        let graph = new Chart(canvas.getContext('2d'), config);
+
+        function update() {
+            config.data.labels = fetchLabels();
+
+            // Fetch event data with status of submitted.
+            fetchGraph(API_URL + 'api/diagnostics/cpu/lastest', config.data.datasets[0], graph);
+
+            setTimeout(update, 2000);
+        }
+
+        update();
+    });
+
+    $(document).ready(function () {
+        // Get the canvas element.
+        let canvas = document.getElementById('diagnosticsMemoryGraph');
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Memory',
+                        backgroundColor: 'blue',
+                        borderColor: 'blue',
+                        data: [],
+                        fill: false,
+                    }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'CPU'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Last Hour'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Memory usage in GB'
+                        }
+                    }]
+                }
+            }
+        };
+
+        let graph = new Chart(canvas.getContext('2d'), config);
+
+        function update() {
+            config.data.labels = fetchLabels();
+
+            // Fetch event data with status of submitted.
+            fetchGraph(API_URL + 'api/diagnostics/memory/lastest', config.data.datasets[0], graph);
+
+            setTimeout(update, 2000);
+        }
+
+        update();
+    });
+</script>

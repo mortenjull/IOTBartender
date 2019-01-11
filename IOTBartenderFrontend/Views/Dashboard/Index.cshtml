@@ -2,4 +2,40 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
+<script type="text/javascript">
+    function fetchGraph(url, dataset, graph) {
+        // Fetch status event.
+        return $.getJSON(url, function (data) {
+            // Clear data set.
+            dataset.data = [];
+            // Pre fill dataset with 0, because not data is avaiable.
+            for (let i = 0; i < 60; i++) dataset.data.push(0);
+
+            let now = new Date(new Date().getTime());
+            let past = new Date(new Date().getTime());
+            past.setHours(now.getHours() - 1)
+
+            // Go through recevied dataset.
+            $.each(data, function (key, val) {
+                let index = (60 - parseInt((past.getTime() - new Date(val['time']).getTime()) / 60000)) + 1;
+                dataset.data[index] = val['count'];
+            });
+            // Update.
+            graph.update();
+        });
+    }
+
+
+    function fetchLabels() {
+        // Labels for the graph.
+        var labels = [];
+
+        // Generate label for the last 60 minutes.
+        for (let now = new Date(), i = 60; i > 0; i--) labels.push(new Date(now.getTime() - i * 60000).toTimeString().split(' ')[0]);
+
+        return labels;
+    }
+</script>
+
 <partial name="~/Views/Dashboard/GraphOrderStatus.cshtml" />
+<partial name="~/Views/Dashboard/GraphDiagnostic.cshtml" />

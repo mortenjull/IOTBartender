@@ -117,7 +117,6 @@ namespace IOTBartender.Application.Commands.Background
                     var message = new MqttApplicationMessageBuilder()
                     .WithTopic(TOPIC_ORDER_REQUEST)
                     .WithPayload(JsonConvert.SerializeObject(orderRequest, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }))
-                    .WithExactlyOnceQoS()
                     .WithRetainFlag()
                     .Build();
 

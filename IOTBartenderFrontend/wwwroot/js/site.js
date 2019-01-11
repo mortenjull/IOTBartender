@@ -6,10 +6,9 @@
 
     var $loading = $('#loadingOverlay').hide();
 
-    $(document).ajaxStart(function () {
-        $loading.show();
-        console.log('rr');
-    }).ajaxStop(function () {
-            $loading.hide();
-    });
+    //$(document).ajaxStart(function () {
+    //    $loading.show();
+    //}).ajaxStop(function () {
+    //        $loading.hide();
+    //});
 })();

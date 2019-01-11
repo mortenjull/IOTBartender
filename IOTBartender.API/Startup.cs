@@ -56,31 +56,6 @@ namespace IOTBartender.API
 
             // Add AutoMapper.
             services.AddAutoMapper();
-
-            //using (var scope = services.BuildServiceProvider().CreateScope())
-            //{
-            //    // Get unit of work.
-            //    var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-
-            //    var fluid1 = unitOfWork.Repository.Add(new Fluid() { Name = "Vodka" });
-            //    var fluid2 = unitOfWork.Repository.Add(new Fluid() { Name = "Rom" });
-            //    var fluid3 = unitOfWork.Repository.Add(new Fluid() { Name = "Gin" });
-            //    var fluid4 = unitOfWork.Repository.Add(new Fluid() { Name = "Cola" });
-
-            //    var recipeOne = unitOfWork.Repository.Add(new Recipe()
-            //    {
-            //        Name = "Recipe One",
-            //        Components = new List<Component>()
-            //        {
-            //            new Component() { FluidId = fluid1.Id, Size = 1},
-            //            new Component() { FluidId = fluid2.Id, Size = 1},
-            //        }
-            //    });
-
-            //    unitOfWork.Repository.Add(new Order() { RecipeId = recipeOne.Id, Events = new List<OrderEvent>() { new OrderEvent() { Time = DateTime.UtcNow, Type = OrderEvent.OrderEventType.Submitted } } });
-
-            //    var result = unitOfWork.SaveChanges().Result;
-            //}
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

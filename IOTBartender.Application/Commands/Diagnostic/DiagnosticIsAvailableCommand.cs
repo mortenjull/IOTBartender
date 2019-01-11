@@ -31,9 +31,11 @@ namespace IOTBartender.Application.Commands.Diagnostic
 
         public async Task<bool> Handle(DiagnosticIsAvailableCommand request, CancellationToken cancellationToken)
         {
+            // Get the first diagnostic, if it were created in the last 20 seconds.
             var specification = new ExpSpecification<Domain.Entititeis.Diagnostic>(
                 x => x.Time > DateTime.UtcNow.AddSeconds(-20));
 
+            // diagnositc object, if available or null.
             var diagnostic = await _unitOfWork.Repository.FirstOrDefault(specification, cancellationToken);
 
             return diagnostic != null;

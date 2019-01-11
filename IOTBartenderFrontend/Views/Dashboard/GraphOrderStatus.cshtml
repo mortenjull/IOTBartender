@@ -11,10 +11,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () { 
-        console.log('ss');
-        // Url of the API to use.
-        var API_URL = 'https://localhost:44380/';
-
         // Get the canvas element.
         let canvas = document.getElementById('orderStatusGraph');
 
@@ -75,14 +71,14 @@
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Month'
+                            labelString: 'Last hour'
                         }
                     }],
                     yAxes: [{
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Value'
+                            labelString: 'Number of orders'
                         }
                     }]
                 }
@@ -95,51 +91,19 @@
             config.data.labels = fetchLabels();
 
             // Fetch event data with status of submitted.
-            fetch(0, config.data.datasets[0]);
+            fetchGraph(API_URL + 'api/orders/events/status/' + 0 + '/lastest', config.data.datasets[0], graph);
             // Fetch event data with status of pending.
-            fetch(1, config.data.datasets[1]);
+            fetchGraph(API_URL + 'api/orders/events/status/' + 1 + '/lastest', config.data.datasets[1], graph);
             // Fetch event data with status of executing.
-            fetch(2, config.data.datasets[2]);
+            fetchGraph(API_URL + 'api/orders/events/status/' + 2 + '/lastest', config.data.datasets[2], graph);
             // Fetch event data with status of Completed.
-            fetch(3, config.data.datasets[3]);
+            fetchGraph(API_URL + 'api/orders/events/status/' + 3 + '/lastest', config.data.datasets[3], graph);
             // Fetch event data with status of Failed.
-            fetch(4, config.data.datasets[4]);
+            fetchGraph(API_URL + 'api/orders/events/status/' + 4 + '/lastest', config.data.datasets[4], graph);
 
             setTimeout(update, 2000);
         }
 
         update();
-
-        function fetchLabels() {
-            // Labels for the graph.
-            var labels = [];
-
-            // Generate label for the last 60 minutes.
-            for (let now = new Date(), i = 60; i > 0; i--) labels.push(new Date(now.getTime() - i * 60000).toTimeString().split(' ')[0]);
-
-            return labels;
-        }
-
-        function fetch(status, dataset) {
-            // Fetch status event.
-            return $.getJSON(API_URL + 'api/orders/events/status/' + status + '/lastest', function (data) {
-                // Clear data set.
-                dataset.data = [];
-                // Pre fill dataset with 0, because not data is avaiable.
-                for (let i = 0; i < 60; i++) dataset.data.push(0);
-
-                let now = new Date(new Date().getTime());
-                let past = new Date(new Date().getTime());
-                past.setHours(now.getHours() - 1)
-
-                // Go through recevied dataset.
-                $.each(data, function (key, val) {
-                    let index = (60 - parseInt((past.getTime() - new Date(val['time']).getTime()) / 60000)) + 1;
-                    dataset.data[index] = val['count'];
-                });
-                // Update.
-                graph.update();
-            });
-        }
     });
 </script>

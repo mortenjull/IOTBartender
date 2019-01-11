@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IOTBartender.Infrastructure.EFCore.Migrations
@@ -7,6 +8,21 @@ namespace IOTBartender.Infrastructure.EFCore.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Diagnostic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Time = table.Column<DateTime>(nullable: false),
+                    Cpu = table.Column<double>(nullable: false),
+                    Memory = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diagnostic", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Fluid",
                 columns: table => new
@@ -67,7 +83,7 @@ namespace IOTBartender.Infrastructure.EFCore.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RecipeId = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Time = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,6 +92,27 @@ namespace IOTBartender.Infrastructure.EFCore.Migrations
                         name: "FK_Order_Recipe_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipe",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderEvent",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    OrderId = table.Column<int>(nullable: false),
+                    Time = table.Column<DateTime>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderEvent", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderEvent_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -94,6 +131,11 @@ namespace IOTBartender.Infrastructure.EFCore.Migrations
                 name: "IX_Order_RecipeId",
                 table: "Order",
                 column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderEvent_OrderId",
+                table: "OrderEvent",
+                column: "OrderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -102,10 +144,16 @@ namespace IOTBartender.Infrastructure.EFCore.Migrations
                 name: "Component");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Diagnostic");
+
+            migrationBuilder.DropTable(
+                name: "OrderEvent");
 
             migrationBuilder.DropTable(
                 name: "Fluid");
+
+            migrationBuilder.DropTable(
+                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "Recipe");

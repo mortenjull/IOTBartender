@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-<script>
+@*<script>
 
     function optionClicked(index) {
 
@@ -26,36 +26,56 @@
 
         orderButton.disabled = false;
     }
-</script>
+</script>*@
 
-<div class="outMostContainer">
-    <div id="selectionBar" class="selectionBar">
-        @*@for (int i = 0; i < @Model.Recipies.Count; i++)
-            {
-            <div onclick="optionClicked(@i)" class="option">
-                @Model.Recipies.ElementAt(i).Name
-            </div>
-            }*@
-    </div>
+<style type="text/css">
+    #container {
+        width: 700px;
+        height: 500px;
+        background-color: yellow;
+        margin-top: 50px;
+    }
+    #selectionBar {
+        width: 300px;
+        height: 500px;
+        float: left;
+        background-color: #f8f9fa !important;
+        border: 1px solid rgba(0, 0, 0, .2);
+        border-right: 0px;
+    }
 
-    <div class="selected">
-        <br />
-        <p id="recipeName"></p>
+        #selectionBar div {
+            width: 300px;
+            padding: 10px 10px 10px 10px;
+            background-color: #f8f9fa !important;
+            border-bottom: 1px solid rgba(0, 0, 0, .2);
+        }
+
+    #selectedBar {
+        width: 400px;
+        height: 500px;
+        float: right;
+        background-color: #f8f9fa !important;
+        border: 1px solid rgba(0, 0, 0, .2);
+        padding: 10px;
+    }
+</style>
+
+<div id="container">
+    <div id="selectionBar"></div>
+    <div id="selectedBar">
+        <h3 id="recipeName">No seleced recipe.</h3>
         <p id="recipeIngrediences"></p>
-
         <form id="orderForm">
             <input type="hidden" id="recipeId" name="recipeId" />
-            <input type="submit" value="Order"/>
+            <input type="submit" id="orderbtn" value="Order" style="display:none;"/>
         </form>
-
-        <input onclick="location.href='@Url.Action("OrderDrink", "Bartender")?id=' + $('#recipeId').val()" id="orderButton" type="button" value="Order" disabled />
     </div>
 </div>
 
+
 @section Scripts {
     <script type="text/javascript">
-        var API_URL = 'https://localhost:44380/';
-
         // List containing the lastest cached recipies list.
         var ajax_calls = [];
 
@@ -97,6 +117,8 @@
 
                     // Set id of the selected recipe.
                     $("#recipeId").val(id);
+
+                    $('#orderbtn').show();
                 }));
             });
 
